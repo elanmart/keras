@@ -465,14 +465,14 @@ class Model(object):
 
 
 class Sequential(Model, containers.Sequential):
-    '''Linear stack of layers.
+    """Linear stack of layers.
 
     Inherits from containers.Sequential.
-    '''
+    """
     def compile(self, optimizer, loss,
                 class_mode="categorical",
                 sample_weight_mode=None):
-        '''Configure the learning process.
+        """Configure the learning process.
 
         # Arguments
             optimizer: str (name of optimizer) or optimizer object.
@@ -485,7 +485,8 @@ class Sequential(Model, containers.Sequential):
             sample_weight_mode: if you need to do timestep-wise
                 sample weighting (2D weights), set this to "temporal".
                 "None" defaults to sample-wise weights (1D).
-        '''
+        """
+
         self.optimizer = optimizers.get(optimizer)
         self.sample_weight_mode = sample_weight_mode
 
@@ -545,10 +546,10 @@ class Sequential(Model, containers.Sequential):
             predict_ins = [self.X_test]
 
         self._train = K.function(train_ins, [train_loss], updates=updates)
-        self._train_with_acc = K.function(train_ins, [train_loss, train_accuracy], updates=updates)
-        self._predict = K.function(predict_ins, [self.y_test], updates=self.state_updates)
-        self._test = K.function(test_ins, [test_loss], updates=self.state_updates)
-        self._test_with_acc = K.function(test_ins, [test_loss, test_accuracy], updates=self.state_updates)
+        #self._train_with_acc = K.function(train_ins, [train_loss, train_accuracy], updates=updates)
+        #self._predict = K.function(predict_ins, [self.y_test], updates=self.state_updates)
+        #self._test = K.function(test_ins, [test_loss], updates=self.state_updates)
+        #self._test_with_acc = K.function(test_ins, [test_loss, test_accuracy], updates=self.state_updates)
 
     def fit(self, X, y, batch_size=128, nb_epoch=100, verbose=1, callbacks=[],
             validation_split=0., validation_data=None, shuffle=True,

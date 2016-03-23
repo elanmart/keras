@@ -3,12 +3,15 @@ from theano import tensor as T
 from theano.sandbox.rng_mrg import MRG_RandomStreams as RandomStreams
 from theano.tensor.signal import pool
 from theano.tensor.nnet import conv3d2d
+import time
 import numpy as np
 from .common import _FLOATX, _EPSILON
 
 
 # INTERNAL UTILS
 theano.config.floatX = _FLOATX
+_PROFILE = theano.config.profile
+_OPT_PROFILE = theano.config.profile_optimizer
 
 
 def _on_gpu():
@@ -439,10 +442,12 @@ def set_value(x, value):
 # GRAPH MANIPULATION
 
 class Function(object):
-
     def __init__(self, inputs, outputs, updates=[], **kwargs):
+        print("K.Function() called ********************************************")
+        before_func = time.time()
         self.function = theano.function(inputs, outputs, updates=updates,
-                                        allow_input_downcast=True, **kwargs)
+                                        allow_input_downcast=True, profile=_PROFILE)
+        print("Creating a function took: {} seconds *********************************88".format(time.time()-before_func))
 
     def __call__(self, inputs):
         assert type(inputs) in {list, tuple}
